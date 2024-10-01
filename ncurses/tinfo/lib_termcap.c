@@ -369,6 +369,7 @@ NCURSES_SP_NAME(tgetstr) (NCURSES_SP_DCLx const char *id, char **area)
 	    result = tp->Strings[j];
 	    TR(TRACE_DATABASE, ("found match %d: %s", j, _nc_visbuf(result)));
 	    /* setupterm forces canceled strings to null */
+	    if(result != NULL) {
 	    if (VALID_STRING(result)) {
 		if (result == exit_attribute_mode
 		    && FIX_SGR0 != 0) {
@@ -381,6 +382,9 @@ NCURSES_SP_NAME(tgetstr) (NCURSES_SP_DCLx const char *id, char **area)
 		    result = *area;
 		    *area += strlen(*area) + 1;
 		}
+		}
+	    } else {
+	    TR(TRACE_DATABASE, ("tgetstr returned NULL for id: %s", id));
 	    }
 	}
     }
